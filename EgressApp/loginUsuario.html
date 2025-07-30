@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egreass App Login</title>
+    <link rel="stylesheet" href="./css/Style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="icon" href="./img/favicon.png">
+
+    <script type="module">
+        // Importa los módulos de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+        import {
+            getAuth,
+            signInWithEmailAndPassword,
+            GoogleAuthProvider,
+            signInWithPopup
+        } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+
+        // Tu configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyB6MwUYPEcu3CwnyplVap-KQ4vA-HMU5Yw",
+            authDomain: "egressapp-c7b42.firebaseapp.com",
+            projectId: "egressapp-c7b42",
+            storageBucket: "egressapp-c7b42.firebasestorage.app",
+            messagingSenderId: "421597652037",
+            appId: "1:421597652037:web:97ef5ef287344b0468af2c",
+            measurementId: "G-G0XT5ESV7K"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app); // Servicio de autenticación
+
+        // Define las funciones globales para los botones
+        window.login = async () => {
+            const email = document.getElementById("nombreLogin").value;
+            const password = document.getElementById("contraseñaLogin").value;
+
+            try {
+                const userCredential = await signInWithEmailAndPassword(auth, email, password);
+                console.log("Usuario logeado:", userCredential.user);
+                alert("¡Inicio de sesión exitoso!");
+                // Redirige al usuario después del login
+                window.location.href = "./dashboard.html"; // Cambia a tu ruta
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error.message);
+                alert("Error: " + error.message);
+            }
+        };
+
+        window.loginGoogle = async () => {
+            const provider = new GoogleAuthProvider();
+
+            try {
+                const result = await signInWithPopup(auth, provider);
+                console.log("Usuario Google:", result.user);
+                alert("¡Inicio de sesión con Google exitoso!");
+                window.location.href = "./dashboard.html"; // Redirige después del login
+            } catch (error) {
+                console.error("Error con Google:", error.message);
+                alert("Error: " + error.message);
+            }
+        };
+    </script>
+
+</head>
+
+<body>
+    <section class="section bg-light">
+        <div class="container">
+            <h1 class="text-center">Login</h1>
+            <div class="login-div">
+                <input type="text" class="div-control" placeholder="Nombre" id="nombreLogin">
+                <input type="password" class="div-control" placeholder="contraseñaLogin" id="contraseñaLogin">
+                <button class="btn btn-primary" onclick="login()">Iniciar sesión</button>
+            </div>
+            <p class="text-center" style="margin-top: 1rem;">
+                ¿No tienes cuenta? <a href="./registerUsuario.html">Registrarme</a>
+            </p>
+            <input type="text" class="div-control" placeholder="Correo electrónico" id="emailLogin">
+            <!-- Cambiado de nombreLogin a emailLogin -->
+            <input type="password" class="div-control" placeholder="Contraseña" id="contraseñaLogin">
+            <button class="btn btn-primary" onclick="loginGoogle()">Iniciar sesión con Google</button>
+        </div>
+    </section>
+
+    <script type="module" src="./js/gestorUsuario.js"></script>
+</body>
+
+</html>
