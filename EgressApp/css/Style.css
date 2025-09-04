@@ -214,8 +214,16 @@ h2 {
     margin: 0.5rem 0;
 }
 
+.card-title{
+text-align: center;
+    font-weight: 600;
+    font-size: 1.2rem;
+}
+
 .description {
-    margin: 1rem 0;
+    font-size: 15px;
+    margin: 1rem 0 0 1.5rem ;
+    font-weight: 450;
 }
 
 /* Split section */
