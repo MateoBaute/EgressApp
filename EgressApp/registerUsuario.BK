@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egreass App Registrarse</title>
+    <link rel="stylesheet" href="./css/Style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="icon" href="./img/favicon.png">
+</head>
+
+<body>
+    <section class="section bg-light">
+        <div class="container">
+            <h1 class="text-center">Registrarme</h1>
+            <div class="registration-div">
+                <input type="text" class="div-control" placeholder="Nombre" id="nombreRegister">
+                <input type="password" class="div-control" placeholder="Contraseña" id="contraseñaRegister">
+                <input type="password" class="div-control" placeholder="Confirmar contraseña" id="contraseñaConfirm">
+                <button class="btn btn-primary" onclick="registrarUsuario()">Registrarse</button>
+                <p>¿Ya tienes cuenta? <a href="./login.html">Volver al Login</a></p>
+            </div>
+        </div>
+    </section>
+
+    <script type="module" src="./js/gestorUsuario.js"></script>
+</body>
+
+</html>

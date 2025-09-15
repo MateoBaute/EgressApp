@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./img/favicon.png">
+    <link rel="stylesheet" href="./css/ofertas.css">
+    <title>Ofertas de Trabajo</title>
+</head>
+
+<body>
+     <div class="container">
+        <h1>Ver Ofertas</h1>
+        <div class="header-buttons">
+            <button onclick="toggleFiltros()" class="btn btn-primary">Buscar Ofertas</button>
+            <button onclick="mostrarFormOferta()" id="botonPublicar" class="btn btn-success">Publicar oferta</button>
+            <a href="./loginEmpresa.html" id="empresaBoton">Inicia sesión como empresa</a>
+        </div>
+
+        <div class="separator"></div>
+
+        <!-- Contenedor para mensajes -->
+        <div id="messageContainer"></div>
+
+        <!-- Formulario de filtros -->
+        <div id="filtros" class="form-container" style="display: none;">
+            <h2>Filtrar Ofertas</h2>
+            <div class="filtros-container">
+                <div class="filtro-item">
+                    <label for="tipo">Tipo de oferta:</label>
+                    <select id="tipo"  onchange="filtrarOfertas()">
+                        <option value="todas">Todas</option>
+                        <option value="pasantia">Pasantía</option>
+                        <option value="trabajo">Trabajo</option>
+                    </select>
+                </div>
+                
+                <div class="filtro-item">
+                    <label for="salario">Salario:</label>
+                    <input type="number" id="salario" placeholder="Monto salarial mínimo" oninput="filtrarOfertas()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de publicación de oferta -->
+        <div id="formPublicarOferta" class="form-container" style="display: none;">
+            <h2>Publicar Oferta</h2>
+            <div class="form-group">
+                <label for="nombre_ofertaPublicar">Nombre de la oferta:</label>
+                <input type="text" id="nombre_ofertaPublicar" name="nombre_oferta" placeholder="Título de la oferta" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="empresaNombrePublicar">Empresa:</label>
+                <input type="text" id="empresaNombrePublicar" name="empresaNombre" placeholder="Nombre de la empresa" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="salarioPublicar">Salario:</label>
+                <input type="number" id="salarioPublicar" name="salario" placeholder="Monto salarial" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="horarioPublicar">Horario:</label>
+                <input type="text" id="horarioPublicar" name="horario" placeholder="Horario de trabajo" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="tipoPublicar">Tipo de oferta:</label>
+                <select id="tipoPublicar" name="tipo" required>
+                    <option value="">Seleccione Tipo de oferta</option>
+                    <option value="pasantia">Pasantía</option>
+                    <option value="trabajo">Trabajo</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="descripcionPublicar">Descripción:</label>
+                <textarea id="descripcionPublicar" name="descripcion" placeholder="Descripción de la oferta" required></textarea>
+            </div>
+            
+            <div>
+                <button type="button" class="btn btn-success" onclick="publicarOferta()">Publicar</button>
+                <button type="button" class="btn btn-secondary" onclick="cancelarPublicacion()">Cancelar</button>
+            </div>
+        </div>
+
+        <!-- Contenedor de ofertas -->
+        <div id="ofertasContainer" class="ofertas-container">
+            <!-- Las cards de ofertas se generarán aquí dinámicamente -->
+        </div>
+    </div>       <!-- Las cards de ofertas se generarán aquí dinámicamente -->
+    </div>
+    <script src="./js/gestorLlamados.js"></script>
+    <script src="./js/controlPanelOfertas.js"></script>
+    <!-- <script src="./js/controlPanelOfertas.js"></script> -->
+</body>
+
+</html>
