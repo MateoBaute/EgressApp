@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1>Ver Ofertas</h1>
+    <button onclick="toggleFiltros()">Buscar Ofertas</button>
+
+    <form id="filtros" style="display: none;">
+        <label for="tipo">Tipo de oferta:</label>
+        <select id="tipo" name="tipo">
+            <option value="todas">Todas</option>
+            <option value="pasantia">Pasantía</option>
+            <option value="trabajo">Trabajo</option>
+        </select>
+
+        <label for="ubicacion">Ubicación:</label>
+        <input type="text" id="ubicacion" name="ubicacion" placeholder="Ciudad o región">
+
+        <label for="empresa">Empresa:</label>
+        <input type="text" id="empresa" name="empresa" placeholder="Nombre de la empresa">
+
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+
+        <button type="reset" class="btn btn-secondary">Limpiar</button>
+    </form>
+
+    <button onclick="" class="btn btn-primary" id="empresasOnly">Publicar oferta</button>
+    <button onclick="" class="btn btn-secondary" id="alumnosOnly">Postularme a oferta</button>
+
+    <form id="formOfertas">
+        <h2>Publicar oferta</h2>
+        <input type="text" id="titulo" name="titulo" placeholder="Título de la oferta" required>
+        <textarea id="descripcion" name="descripcion" placeholder="Descripción de la oferta" required></textarea>
+        <input type="text" id="empresaNombre" name="empresaNombre" placeholder="Nombre de la empresa" required>
+    </form>
+
+    <form id="verOfertas">
+    </form>
+<script src="./js/controlPanelOfertas.js"></script>
+</body>
+
+</html>
