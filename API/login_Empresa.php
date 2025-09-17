@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Conexión a la base de datos
-$mysqli = new mysqli("localhost", "root", "", "egressapp");
+$mysqli = new mysqli("127.0.0.1", "root", "", "egressapp");
 
 if ($mysqli->connect_errno) {
     http_response_code(500);
@@ -37,20 +37,9 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     exit();
 }
 
-// Obtener parámetros del JSON decodificado, no de $_POST
-$nombre = $input['nombre'] ?? '';
-$email = $input['email'] ?? '';
-$telefono = $input['telefono'] ?? '';
-$contraseña = $input['contraseña'] ?? '';
-$enfoque = $input['enfoque'] ?? '';
-$direccion = $input['direccion'] ?? ''; // Si no viene en el JSON, queda vacío
-
-// Validar campos obligatorios
-if (empty($nombre) || empty($email) || empty($telefono) || empty($contraseña) || empty($enfoque)) {
-    http_response_code(400);
-    echo json_encode(["success" => false, "error" => "Faltan campos obligatorios"]);
-    exit();
-}
+// Obtener parámetros del JSON
+$email = $_POST['email'] ?? '';
+$contraseña = $_POST['contraseña'] ?? '';
 
 // Validar formato de email
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -59,26 +48,11 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-// Verificar si el email ya existe en la base de datos
-$check_sql = "SELECT Id_empresa FROM empresa WHERE Mail = ?";
-$check_stmt = $mysqli->prepare($check_sql);
-$check_stmt->bind_param("s", $email);
-$check_stmt->execute();
-$check_stmt->store_result();
-
-if ($check_stmt->num_rows > 0) {
-    http_response_code(409);
-    echo json_encode(["success" => false, "error" => "El email ya está registrado"]);
-    $check_stmt->close();
-    exit();
-}
-$check_stmt->close();
-
-// Codificar la contraseña en base64 (similar a btoa)
+// Codificar la contraseña en base64 (para coincidir con el registro)
 // $contraseñaCodificada = base64_encode($contraseña);
 
-// Preparar consulta
-$sql = "INSERT INTO empresa (Nombre_empresa, Teléfono, Mail, Dirección, Enfoque, Contraseña) VALUES (?, ?, ?, ?, ?, ?)";
+// Preparar consulta para verificar credenciales
+$sql = "SELECT id_empresa, Nombre_empresa, Mail, Teléfono, Dirección, Enfoque FROM empresa WHERE Mail = ? AND Contraseña = ?";
 $stmt = $mysqli->prepare($sql);
 
 if (!$stmt) {
@@ -88,16 +62,46 @@ if (!$stmt) {
 }
 
 // Vincular parámetros
-$stmt->bind_param("sissss", $nombre, $telefono, $email, $direccion, $enfoque, $contraseña);
+$stmt->bind_param("ss", $email, $contraseñaCodificada);
 
 // Ejecutar la consulta
-if ($stmt->execute()) {
-    http_response_code(201);
-    echo json_encode(["success" => true, "message" => "Empresa registrada correctamente"]);
-} else {
+if (!$stmt->execute()) {
     http_response_code(500);
     echo json_encode(["success" => false, "error" => "Error al ejecutar la consulta: " . $stmt->error]);
+    exit();
 }
+
+// Obtener resultado
+$result = $stmt->get_result();
+
+if ($result->num_rows === 0) {
+    http_response_code(401);
+    echo json_encode(["success" => false, "error" => "Credenciales inválidas"]);
+    exit();
+}
+
+// Login exitoso
+$empresa = $result->fetch_assoc();
+
+// Iniciar sesión (opcional, dependiendo de tu enfoque)
+session_start();
+$_SESSION['empresa_id'] = $empresa['id_empresa'];
+$_SESSION['empresa_nombre'] = $empresa['Nombre_empresa'];
+$_SESSION['empresa_email'] = $empresa['Mail'];
+
+http_response_code(200);
+echo json_encode([
+    "success" => true, 
+    "message" => "Login exitoso",
+    "empresa" => [
+        "id" => $empresa['id_empresa'],
+        "nombre" => $empresa['Nombre_empresa'],
+        "email" => $empresa['Mail'],
+        "telefono" => $empresa['Teléfono'],
+        "direccion" => $empresa['Dirección'],
+        "enfoque" => $empresa['Enfoque']
+    ]
+]);
 
 $stmt->close();
 $mysqli->close();

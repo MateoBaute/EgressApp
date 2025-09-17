@@ -1,10 +1,12 @@
 function registrarEmpresa() {
-  let nombre = document.getElementById("nombreRegister").value;
-  let email = document.getElementById("emailRegister").value;
-  let telefono = document.getElementById("telefonoRegister").value;
-  let contraseña = document.getElementById("contraseñaRegister").value;
-  let confirmarContraseña = document.getElementById("confirmarContraseñaRegister").value;
-  let enfoque = document.getElementById("enfoqueRegister").value;
+  // Obtener valores directamente
+  const nombre = document.getElementById("nombreRegister").value;
+  const email = document.getElementById("emailRegister").value;
+  const telefono = document.getElementById("telefonoRegister").value;
+  const contraseña = document.getElementById("contraseñaRegister").value;
+  const confirmarContraseña = document.getElementById("confirmarContraseñaRegister").value;
+  const enfoque = document.getElementById("enfoqueRegister").value;
+  const direccion = document.getElementById("direccionRegister").value; // Campo vacío como en el código original
 
   // Validaciones
   if (!nombre || !email || !telefono || !contraseña || !confirmarContraseña || !enfoque) {
@@ -17,31 +19,28 @@ function registrarEmpresa() {
     return;
   }
 
-  if (!validateEmail(email)) {
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     alert('Por favor, ingrese un email válido');
     return;
   }
 
-  // Crear objeto con los datos (contraseña en texto plano)
-  const datos = {
-    nombre: nombre,
-    email: email,
-    telefono: telefono,
-    contraseña: contraseña,
-    enfoque: enfoque,
-    direccion: "" // Añadir campo dirección aunque esté vacío
-  };
-
-  // Enviar datos al servidor con POST
+  // Enviar datos directamente sin crear un objeto intermedio
   fetch('./API/registrar_empresa.php', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(datos)
+    body: JSON.stringify({
+      nombre: nombre,
+      email: email,
+      telefono: telefono,
+      contraseña: contraseña,
+      enfoque: enfoque,
+      direccion: direccion,
+      id: 0
+    })
   })
   .then(response => {
-    // Verificar si la respuesta es JSON válido
     const contentType = response.headers.get('content-type');
     if (!contentType || !contentType.includes('application/json')) {
       throw new TypeError("El servidor no devolvió JSON");
@@ -60,10 +59,10 @@ function registrarEmpresa() {
       document.getElementById("contraseñaRegister").value = "";
       document.getElementById("confirmarContraseñaRegister").value = "";
 
-      // Redirigir al login después de 2 segundos
+      // Redirigir al login
       setTimeout(() => {
         window.location.href = "./loginEmpresa.html";
-      },);
+      },0);
       
     } else {
       alert('Error: ' + data.error);
@@ -82,34 +81,104 @@ function validateEmail(email) {
 }
 
 function loginEmpresa() {
-  let nombre = document.getElementById("nombreLogin").value;
-  let email = document.getElementById("emailLogin").value;
-  let telefono = document.getElementById("telefonoLogin").value;
-  let enfoque = document.getElementById("enfoqueLogin").value;
-  let contraseña = document.getElementById("contraseñaLogin").value;
+  // Obtener valores directamente
+  const email = document.getElementById("emailLogin").value;
+  const contraseña = document.getElementById("contraseñaLogin").value;
 
-  let contraseñaHasheada = btoa(encodeURIComponent(contraseña));
-
-  let empresaEncontrada = ArrayEmpresas.find(
-    (empresa) =>
-      empresa.Email === email &&
-      empresa.Telefono === telefono &&
-      empresa.Enfoque === enfoque &&
-      empresa.Nombre === nombre &&
-      empresa.Contraseña === contraseñaHasheada
-  );
-
-  if (empresaEncontrada) {
-    alert(`Bienvenido ${empresaEncontrada.Nombre}`);
-  } else {
-    alert("Credenciales incorrectas. Por favor, verifica tu información.");
+  // Validaciones
+  if (!email || !contraseña) {
+    alert('Por favor, complete todos los campos');
+    return;
   }
-  setTimeout(() => {
-    window.location.assign("./index.html");
+
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    alert('Por favor, ingrese un email válido');
+    return;
+  }
+
+  // Enviar datos al servidor
+  fetch('./API/login_empresa.php', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      email: email,
+      contraseña: contraseña
+    })
+  })
+  .then(response => {
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      throw new TypeError("El servidor no devolvió JSON");
+    }
+    return response.json();
+  })
+  .then(data => {
+    if (data.success) {
+      // Crear objeto empresaLogueada con todos los datos recibidos
+      const empresaLogueada = {
+        id: data.empresa.id,
+        nombre: data.empresa.nombre,
+        email: data.empresa.email,
+        telefono: data.empresa.telefono,
+        direccion: data.empresa.direccion,
+        enfoque: data.empresa.enfoque,
+        fechaRegistro: new Date().toISOString(),
+        // Puedes agregar más campos si los necesitas
+      };
+      
+      // Guardar en sessionStorage
+      sessionStorage.setItem('empresaLogueada', JSON.stringify(empresaLogueada));
+      sessionStorage.setItem('empresaAutenticada', 'true');
+      
+      // Mostrar mensaje de bienvenida
+      alert(`¡Bienvenido de nuevo, ${empresaLogueada.nombre}!`);
+      
+      // Redirigir al dashboard después de un breve delay
+      setTimeout(() => {
+        window.location.href = "./dashboard_empresa.html";
+      }, 1000);
+      
+    } else {
+      alert('Error: ' + data.error);
+    }
+  })
+  .catch(error => {
+    console.error('Error completo:', error);
+    alert('Error al iniciar sesión: ' + error.message);
   });
 }
 
-// Asegurar que las funciones estén disponibles globalmente
+// Función para verificar si hay una empresa logueada al cargar la página
+function verificarAutenticacion() {
+  const empresaAutenticada = sessionStorage.getItem('empresaAutenticada');
+  const empresaLogueada = JSON.parse(sessionStorage.getItem('empresaLogueada') || '{}');
+  
+  if (empresaAutenticada === 'true' && empresaLogueada.id) {
+    // Hay una empresa logueada, podemos mostrar su información
+    console.log('Empresa logueada:', empresaLogueada);
+    return true;
+  }
+  return false;
+}
+
+// Función para obtener los datos de la empresa logueada
+function obtenerEmpresaLogueada() {
+  const empresaLogueada = JSON.parse(sessionStorage.getItem('empresaLogueada') || '{}');
+  return empresaLogueada.id ? empresaLogueada : null;
+}
+
+// Función para cerrar sesión
+function cerrarSesionEmpresa() {
+  sessionStorage.removeItem('empresaLogueada');
+  sessionStorage.removeItem('empresaAutenticada');
+  alert('Sesión cerrada correctamente');
+  window.location.href = "./login_empresa.html";
+}
+
+
+//Asegurar que las funciones estén disponibles globalmente
 addEventListener("DOMContentLoaded", () => {
   window.registrarEmpresa = registrarEmpresa;
   window.loginEmpresa = loginEmpresa;
