@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-09-2025 a las 18:31:08
+-- Tiempo de generación: 17-09-2025 a las 23:47:42
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Base de datos: `egresapp`
+-- Base de datos: `egressapp`
 --
 
 -- --------------------------------------------------------
@@ -51,8 +51,16 @@ CREATE TABLE `empresa` (
   `Mail` varchar(200) NOT NULL,
   `Dirección` varchar(200) NOT NULL,
   `Enfoque` varchar(200) NOT NULL,
-  `id_llamado` int(11) NOT NULL
+  `Contraseña` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `empresa`
+--
+
+INSERT INTO `empresa` (`Id_empresa`, `Nombre_empresa`, `Teléfono`, `Mail`, `Dirección`, `Enfoque`, `Contraseña`) VALUES
+(5, 'Sienz', 45446181, 'Sienz@gmail.com', 'chile', 'Importación de Frutas', '12345678'),
+(6, 'VALE', 94567345, 'SienG@gmail.com', 'CHILE', 'Importación de Frutas', '12345678');
 
 -- --------------------------------------------------------
 
@@ -85,20 +93,22 @@ CREATE TABLE `llamado` (
   `Tipo` varchar(200) NOT NULL,
   `Descripción` text NOT NULL,
   `Nombre_Oferta` varchar(10) NOT NULL,
-  `id_empresa` int(11) NOT NULL
+  `id_empresa` int(11) NOT NULL,
+  `Empresa` varchar(45) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `llamado`
 --
 
-INSERT INTO `llamado` (`id_llamado`, `Salario`, `Horario`, `Tipo`, `Descripción`, `Nombre_Oferta`, `id_empresa`) VALUES
-(1, 3500, '8hrs', 'Trabajo', 'Desarrollador backend', 'Desarrolla', 0),
-(2, 50000, '8hrs', 'Trabajo', 'Diseñador gráfico', 'Diseñador ', 0),
-(3, 3001, '0000-00-00', 'Pasantia', 'Gerente de proyecto', 'Gerente de', 0),
-(4, 3200, '0000-00-00', 'Trabajo', 'Desarrollador Frontend', 'Coso', 0),
-(8, 4201, '0000-00-00', 'Trabajo', 'Ingeniero de Software Senior con experiencia en Java y Spring Boot. Requisitos: 5+ años de experiencia, inglés avanzado y disponibilidad para trabajo híbrido (3 días oficina/2 días remoto). Beneficios: seguro médico, bonos por desempeño y capacitaciones pagas.', 'Fabian', 0),
-(11, 50000, '8hrs', 'trabajo', 'a', 'a', 0);
+INSERT INTO `llamado` (`id_llamado`, `Salario`, `Horario`, `Tipo`, `Descripción`, `Nombre_Oferta`, `id_empresa`, `Empresa`) VALUES
+(1, 3500, '8hrs', 'Trabajo', 'Desarrollador backend', 'Desarrolla', 0, 'Corck'),
+(2, 50000, '8hrs', 'Trabajo', 'Diseñador gráfico', 'Diseñador ', 0, 'Split'),
+(3, 3001, '8hrs', 'Pasantia', 'Gerente de proyecto', 'Gerente de', 0, 'Sienz'),
+(4, 3200, '8hrs', 'Trabajo', 'Desarrollador Frontend', 'Coso', 0, 'Black Spot'),
+(8, 4201, '8hrs', 'Trabajo', 'Ingeniero de Software Senior con experiencia en Java y Spring Boot. Requisitos: 5+ años de experiencia, inglés avanzado y disponibilidad para trabajo híbrido (3 días oficina/2 días remoto). Beneficios: seguro médico, bonos por desempeño y capacitaciones pagas.', 'Fabian', 0, 'Smart Water'),
+(11, 50000, '4hrs', 'Pasantía', 'a', 'a', 0, 'Pimba'),
+(12, 30000, '8hrs', 'trabajo', 'HHHHHHHHH', 'Clavos', 0, 'a');
 
 -- --------------------------------------------------------
 
@@ -107,9 +117,9 @@ INSERT INTO `llamado` (`id_llamado`, `Salario`, `Horario`, `Tipo`, `Descripción
 --
 
 CREATE TABLE `postulacion` (
-  `Fecha` varchar(450) NOT NULL,
+  `Fecha` date NOT NULL,
   `Postulante` varchar(450) NOT NULL,
-  `Oferta` varchar(450) NOT NULL,
+  `Id_llamado` int(11) NOT NULL,
   `id_postulacion` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -127,8 +137,7 @@ ALTER TABLE `alumno`
 -- Indices de la tabla `empresa`
 --
 ALTER TABLE `empresa`
-  ADD PRIMARY KEY (`Id_empresa`),
-  ADD KEY `Publica` (`id_llamado`);
+  ADD PRIMARY KEY (`Id_empresa`);
 
 --
 -- Indices de la tabla `ex-alumno`
@@ -162,7 +171,7 @@ ALTER TABLE `alumno`
 -- AUTO_INCREMENT de la tabla `empresa`
 --
 ALTER TABLE `empresa`
-  MODIFY `Id_empresa` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `Id_empresa` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `ex-alumno`
@@ -174,23 +183,13 @@ ALTER TABLE `ex-alumno`
 -- AUTO_INCREMENT de la tabla `llamado`
 --
 ALTER TABLE `llamado`
-  MODIFY `id_llamado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_llamado` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `postulacion`
 --
 ALTER TABLE `postulacion`
   MODIFY `id_postulacion` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `empresa`
---
-ALTER TABLE `empresa`
-  ADD CONSTRAINT `Publica` FOREIGN KEY (`id_llamado`) REFERENCES `alumno` (`id_alumno`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
