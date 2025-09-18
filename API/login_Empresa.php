@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit();
 }
 
-// Obtener datos del cuerpo de la solicitud
+// Obtener datos del cuerpo de la solicitud (JSON)
 $json = file_get_contents('php://input');
 $input = json_decode($json, true);
 
@@ -37,9 +37,9 @@ if (json_last_error() !== JSON_ERROR_NONE) {
     exit();
 }
 
-// Obtener parámetros del JSON
-$email = $_POST['email'] ?? '';
-$contraseña = $_POST['contraseña'] ?? '';
+// Ahora sí: leer los valores que vienen del fetch
+$email = $input['email'] ?? '';
+$contraseña = $input['contraseña'] ?? '';
 
 // Validar formato de email
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -48,11 +48,10 @@ if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     exit();
 }
 
-// Codificar la contraseña en base64 (para coincidir con el registro)
-// $contraseñaCodificada = base64_encode($contraseña);
-
 // Preparar consulta para verificar credenciales
-$sql = "SELECT id_empresa, Nombre_empresa, Mail, Teléfono, Dirección, Enfoque FROM empresa WHERE Mail = ? AND Contraseña = ?";
+$sql = "SELECT id_empresa, Nombre_empresa, Mail, Teléfono, Dirección, Enfoque 
+        FROM empresa 
+        WHERE Mail = ? AND Contraseña = ?";
 $stmt = $mysqli->prepare($sql);
 
 if (!$stmt) {
@@ -62,7 +61,7 @@ if (!$stmt) {
 }
 
 // Vincular parámetros
-$stmt->bind_param("ss", $email, $contraseñaCodificada);
+$stmt->bind_param("ss", $email, $contraseña);
 
 // Ejecutar la consulta
 if (!$stmt->execute()) {
@@ -83,7 +82,7 @@ if ($result->num_rows === 0) {
 // Login exitoso
 $empresa = $result->fetch_assoc();
 
-// Iniciar sesión (opcional, dependiendo de tu enfoque)
+// Iniciar sesión (opcional)
 session_start();
 $_SESSION['empresa_id'] = $empresa['id_empresa'];
 $_SESSION['empresa_nombre'] = $empresa['Nombre_empresa'];
