@@ -17,22 +17,31 @@ function togglePublicar() {
 
 function buttonHidden() {
     setTimeout(() => {
-    const loguedEnterprise = JSON.parse(sessionStorage.getItem("empresaLogueada"));
-    let button = document.querySelectorAll("applyButton");
+        const loguedEnterprise = JSON.parse(sessionStorage.getItem("empresaLogueada"));
+        const buttons = document.querySelectorAll(".applyButton"); // <-- fixed selector
 
-    if (button == null || button == undefined || button == "") {
-
-        alert("No se econtró el botón");
-
-    } else {
-        
-        if (loguedEnterprise) {
-            button.display = "none"; // = en lugar de ==
+        if (!buttons || buttons.length === 0) {
+            // No buttons found
+            // alert("No se econtró el botón"); // Optional: remove alert for better UX
         } else {
-            button.display = "block"; // = en lugar de ==
+            if (loguedEnterprise) {
+                buttons.forEach(btn => btn.style.display = "none"); // <-- fixed display
+            } else {
+                buttons.forEach(btn => btn.style.display = "block");
+            }
         }
-        return;
-    }
-}, 90);
+    }, 90);
 }
 
+
+addEventListener("DOMContentLoaded", () => {
+  const empresaLogueada = JSON.parse(sessionStorage.getItem("empresaLogueada"));
+
+  const publicarOfertaBtn = document.getElementById("empresaBoton");
+
+  if (empresaLogueada) {
+    publicarOfertaBtn.style.display = "none";
+  }else {
+    publicarOfertaBtn.style.display = "block";
+  }
+});

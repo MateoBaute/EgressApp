@@ -90,7 +90,7 @@ function mostrarOfertasEnContainer(ofertas) {
                 <p><strong>Horario:</strong> ${oferta.Horario || 'No especificado'}</p>
                 <p><strong>Tipo:</strong> ${oferta.Tipo || 'No especificado'}</p>
                 <p><strong>Descripción:</strong> ${oferta.Descripción || 'Sin descripción'}</p>
-                <button class="applyButton" id="${oferta.id_llamado}" class="btn btn-primari" onclick="togleFormPostularme()">Postularme</button>
+                <button class="applyButton btn-primari" id="${oferta.id_llamado}" onclick="togleFormPostularme()">Postularme</button>
             </div>
         </div>
         `;
