@@ -1,10 +1,11 @@
 addEventListener('DOMContentLoaded', () => {
     togglePublicar();
+    buttonHidden();
 });
 
 function togglePublicar() {
     let publicar = document.getElementById("botonPublicar");
-    let usuarioActual = JSON.parse(sessionStorage.getItem("usuarioActual"));
+    let usuarioActual = JSON.parse(sessionStorage.getItem("empresaLogueada"));
 
     if (usuarioActual) {
         publicar.style.display = "block";
@@ -14,15 +15,24 @@ function togglePublicar() {
 }
 
 
-function botonEliminar() {
-    let nombreOferta = prompt("Ingresa el nombre de la oferta que desa eliiminar: ");
+function buttonHidden() {
+    setTimeout(() => {
+    const loguedEnterprise = JSON.parse(sessionStorage.getItem("empresaLogueada"));
+    let button = document.querySelectorAll("applyButton");
 
-    let usuarioActual = JSON.parse(sessionStorage.getItem("usuarioActual"));
+    if (button == null || button == undefined || button == "") {
 
-    if (usuarioActual.nombreEmpresas == nombreOferta.nombreEmpresas) {
-        let botonEliminar = document.getElementById("button");
-        botonEliminar.display = "block";
+        alert("No se econtró el botón");
+
+    } else {
+        
+        if (loguedEnterprise) {
+            button.display = "none"; // = en lugar de ==
+        } else {
+            button.display = "block"; // = en lugar de ==
+        }
         return;
     }
-
+}, 90);
 }
+

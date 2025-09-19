@@ -113,6 +113,10 @@ textarea {
   float: right;
 }
 
+.btn-primari:hover {
+  background-color: #2980b9;
+}
+
 .btn-secondary {
   background-color: #95a5a6;
   color: white;
@@ -120,6 +124,11 @@ textarea {
 
 .hidden {
   display: none;
+}
+
+.header-buttons{
+  display: block;
+  max-height: 150px;
 }
 
 .card-container {
