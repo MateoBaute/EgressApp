@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Egresapp - Registro de Empresa</title>
+    <link rel="stylesheet" href="./css/Style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <link rel="icon" href="./img/favicon.png">
+</head>
+<body>
+    <section class="section bg-light">
+
+        <div id="registerForm"></div>
+        <div class="container">
+            <h1 class="text-center">Registro de Empresa</h1>
+            <div class="login-div">
+                <input type="text" class="div-control" placeholder="Nombre de la empresa" id="nombreRegister" required>
+                <input type="email" class="div-control" placeholder="Correo Electrónico" id="emailRegister" required>
+                <input type="number" class="div-control" placeholder="Teléfono" id="telefonoRegister" required>
+                <input type="text" class="div-control" placeholder="Enfoque o Rubro" id="enfoqueRegister" required>
+                <input type="text" class="div-control" placeholder="Dirección" id="direccionRegister" required>
+                <input type="password" class="div-control" placeholder="Contraseña" id="contraseñaRegister" required minlength="6">
+                <input type="password" class="div-control" placeholder="Confirmar Contraseña" id="confirmarContraseñaRegister" required>
+                <button class="btn btn-primary" onclick="registrarEmpresa()">Registrar</button>
+            </div>
+            <p class="text-center" style="margin-top: 1rem;">
+                ¿Ya registraste tu empresa? <a href="./loginEmpresa.html">Iniciar sesión</a>
+            </p>
+        </div>
+    </section>
+
+    <script src="./js/gestorEmpresa.js"></script>
+</body>
+</html>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EgressApp - Conectando talento con oportunidades</title>
+    <link rel="stylesheet" href="./css/Style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="./img/favicon.png">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div id="textLogo" class="textLogo">
+                <a id="contenidoLogo" href="">
+                    <h1>EgressApp</h1>
+                    <p>Conectando talento con oportunidades</p>
+                </a>
+            </div>
+
+            <nav>
+                <ul>
+                    <li><a href="#hero">Inicio</a></li>
+                    <li><a href="#opportunities">¿Que hacemos?</a></li>
+                    <li><a href="#ofertas">¿Como postularse?</a></li>
+                    <li><a href="#empresas">Para empresas</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="hero" class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2>Tu puente hacia el mundo laboral</h2>
+                <p>Encuentra pasantías y trabajos en Nueva Palmira y todo Uruguay</p>
+                <div class="buttons">
+                    <!-- <div id="registro">
+                        <a href="#register-panel" class="btn btn-primary">Regístrate</a>
+                    </div> -->
+                    <a href="#ofertas" class="btn btn-secondary">Ver ofertas</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="opportunities" class="opportunities">
+        <div class="container">
+            <div class="opportunities-content">
+
+                <h2 id="opportunities-title">¿Buscas oportunidades laborales?</h2>
+                <p class="opportunities-text">¿Te encuentras en la búsqueda de inserción laboral o experiencias
+                    profesionales formativas y requieres orientación sobre cómo canalizar este proceso?<br><br>En
+                    EgressApp hemos diseñado una plataforma especializada que funciona como puente estratégico entre tu
+                    potencial y las oportunidades del mercado.<br><br>Para egresados de la UTU, ofrecemos acceso
+                    exclusivo a un portfolio de posiciones laborales acordes a su formación técnica, permitiéndoles
+                    iniciar una carrera profesional sólida con empresas que valoran sus competencias
+                    específicas.<br><br>Para estudiantes en fase final de formación, facilitamos un programa de
+                    pasantías curriculares y extracurriculares meticulosamente seleccionadas, que les permitirán
+                    adquirir experiencia tangible en entornos laborales reales mientras culminan sus estudios,
+                    potenciando así su empleabilidad futura.<br><br>Nuestro diferencial reside en la curaduría de
+                    oportunidades, el acompañamiento personalizado en el proceso de postulación y la conexión directa
+                    con empleadores que comprenden el valor de la formación técnica uruguaya.</p>
+                <a href="#ofertas" id="explorar-oportunidades" class="btn btn-primary">Explorar oportunidades</a>
+
+            </div>
+        </div>
+    </section>
+
+
+
+    <section id="ofertas" class="section bg-light">
+        <div class="container">
+            <h2>Para postularse a las ofertas</h2>
+            <div class="jobs">
+                <div class="job-card">
+                    <div class="step-number">1</div>
+                    <h3 class="card-title">Requisitos</h3>
+                    <ol>
+                        <li class="description">Tener mínimo 15 años (contar con el permiso de menor en
+                            de ser menor)</li>
+                        <li class="description">Contar con curriculúm VITAE</li>
+                        <li class="description">Ser o haber sido alumno de la UTU</li>
+                    </ol>
+                </div>
+
+                <div class="job-card">
+                    <div class="step-number">2</div>
+                    <h3 class="card-title">¿Como enviar el currículum?</h3>
+                    <ol>
+                        <li class="description">Armar el currículum con tus datos</li>
+                        <li class="description">Subir el currículum a una plataforma que permita
+                            compartir el link con modo "solo visualizacion" como Drive o canva</li>
+                        <li class="description">Pegar ese link en el cuadro de texto que aparecerá al
+                            presionar el botón "Postularme"</li>
+                    </ol>
+                </div>
+                <div class="job-card">
+                    <div class="step-number">3</div>
+                    <h3 class="card-title">Esperar a que la empresa te contacte</h3>
+                    <p class="company">Es posible que esto demore </p>
+                    <p class="description">Nueva Palmira, Colonia</p>
+                    <p class="description">Buscamos egresados de contabilidad para puesto full-time...</p>
+                </div>
+            </div>
+            <div class="text-center">
+                <a href="https://egresap.sbs/verOfertas.html" class="btn btn-primary">Ver todas las ofertas</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="empresas" class="section">
+        <div class="container">
+            <div class="split-section">
+                <div class="split-content">
+                    <h2>¿Eres una empresa?</h2>
+                    <p>Publica tus ofertas de trabajo y pasantías para encontrar al mejor talento joven de Nueva Palmira
+                        y Uruguay.</p>
+                    <ul class="benefits">
+                        <li>✔ Acceso a talento calificado</li>
+                        <li>✔ Proceso de selección simplificado</li>
+                        <li>✔ Visibilidad en la comunidad educativa</li>
+                    </ul>
+                    <a href="./loginEmpresa.html" class="btn btn-primary" id="publicarOfertaBtn">Publicar una oferta</a>
+                </div>
+                <div class="split-image">
+                    <img src="https://images.unsplash.com/photo-1521791136064-7986c2920216?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"
+                        alt="Empresas conectando con talento">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>EgressApp</h3>
+                    <p>Conectando empresas con el talento joven de Nueva Palmira y Uruguay</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p>info@egressapp.com</p>
+                    <p>+598 99 123 456</p>
+                    <p>Nueva Palmira, Colonia, Uruguay</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#">LinkedIn</a>
+                        <a href="#">Facebook</a>
+                        <a href="#">Instagram</a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 EgressApp. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="./js/controlPanelIndex.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mis Postulaciones - EgressApp</title>
+    <link rel="icon" href="./img/favicon.png">
+    <link rel="stylesheet" href="./css/verMisOfertas.css">
+</head>
+<body>
+<script>
+    function reloadPage() {
+        location.reload();
+    }
+
+    function closeSession() {
+        sessionStorage.clear();
+        location.href = "https://egresap.sbs/verOfertas.html";
+    }
+</script>
+
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <div class="header-content">
+            <div class="logo">
+                <h1>EgressApp</h1>
+                <p>Panel de Control - Empresas</p>
+            </div>
+            <div class="empresa-info">
+                <div class="empresa-nombre" id="empresaNombre">Cargando...</div>
+                <div class="empresa-email" id="empresaEmail">Cargando...</div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Navigation -->
+<nav class="nav">
+    <div class="container">
+        <div class="nav-buttons">
+            <a class="btn btn-primary" href="https://egresap.sbs/verOfertas.html">Ver Ofertas de Trabajo</a>
+            <a class="btn btn-success" href="https://egresap.sbs/verOfertas.html">Publicar Nueva Oferta</a>
+            <button class="btn btn-info" onclick="reloadPage()">Actualizar Postulaciones</button>
+            <button onclick="closeSession()" class="btn btn-secondary">Cerrar Sesión</button>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<main class="main-content">
+    <div class="container">
+        <div class="page-title">
+            <h2>Mis Postulaciones Recibidas</h2>
+            <p>Gestiona y revisa todas las postulaciones de tus ofertas de trabajo</p>
+        </div>
+
+        <div class="stats-container" id="statsContainer">
+            <div class="stat-card">
+                <div class="stat-number" id="card-ofertas">0</div>
+                <div class="stat-label">Ofertas Publicadas</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="card-postulaciones">0</div>
+                <div class="stat-label">Total Postulaciones</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="card-popular">--</div>
+                <div class="stat-label">Oferta Más Popular</div>
+            </div>
+        </div>
+
+        <div class="ofertas-container" id="ofertasContainer">
+            <div class="loading" id="loadingState">
+                <div class="loading-spinner"></div>
+                <p>Cargando postulaciones...</p>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- 🔧 Modal de edición (contenedor global) -->
+<div id="modalEditarOfertaContainer"></div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <p>&copy; 2025 EgressApp. Todos los derechos reservados.</p>
+        <p>Conectando talento con oportunidades</p>
+    </div>
+</footer>
+
+<script src="./js/postulaciones.js"></script>
+</body>
+</html>
